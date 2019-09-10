@@ -17,7 +17,7 @@ class ContactResource extends BaseResource
     {
         return [
             'id' => $this->id,
-            'user_id'=>$this->user_id,
+            'member_id'=>$this->member_id,
             'name' => $this->name,
             'email' => $this->email,
             'address' => $this->address,

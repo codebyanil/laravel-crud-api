@@ -17,7 +17,7 @@ class BookResource extends BaseResource
     {
         return [
             'id' => $this->id,
-            'user_id'=>$this->user_id,
+            'member_id'=>$this->member_id,
             'name' => $this->name,
             'author' => $this->email,
             'address' => $this->address,
