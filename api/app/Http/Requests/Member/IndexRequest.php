@@ -3,9 +3,10 @@
 namespace App\Http\Requests\Member;
 
 use App\Http\Requests\BaseFormRequest;
+use App\Rules\AscOrDesc;
+use App\Rules\IntOrBool;
 
-
-class ShowRequest extends BaseFormRequest
+class IndexRequest extends BaseFormRequest
 {
     /**
      * --------------------------------------------------
@@ -29,7 +30,9 @@ class ShowRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            
+            'per_page' => ['nullable',new IntOrBool],
+            'sort_by' => 'nullable|string',
+            'sort_order' => ['nullable', new AscOrDesc],
         ];
     }
 }
