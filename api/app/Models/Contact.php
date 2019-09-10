@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -8,7 +8,7 @@ class Contact extends Model
 {
     
     // the table associated with the model
-    protected $table = 'contact';
+    protected $table = 'contacts';
     // the attributes that are mass assignable
     protected $fillable = ['user_id', 'name',  'email', 'phone', 'address'];
     // hidden fields
