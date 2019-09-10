@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Member\StoreRequest;
+use App\Http\Resources\Member\MemberResource;
+use App\Models\Member;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class MemberController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -12,9 +15,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
-    }
+    { }
 
     /**
      * Show the form for creating a new resource.
@@ -27,14 +28,23 @@ class UserController extends Controller
     }
 
     /**
+     * --------------------------------------------------
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
+     *--------------------------------------------------
+     * @param  \Illuminate\Http\StoreRequest  $request
      * @return \Illuminate\Http\Response
+     * --------------------------------------------------
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        // create user
+        $user = new Member([
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+        ]);
+        $user->save();
+
+        return new MemberResource($user);
     }
 
     /**
@@ -49,10 +59,12 @@ class UserController extends Controller
     }
 
     /**
+     * --------------------------------------------------
      * Show the form for editing the specified resource.
-     *
+     *--------------------------------------------------
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * --------------------------------------------------
      */
     public function edit($id)
     {

@@ -11,18 +11,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $users = factory(App\Models\User::class, 2)->create();
+        $users = factory(App\Models\Member::class, 2)->create();
     
         foreach ($users as $user) {
             factory(App\Models\Contact::class, 10)->create([
-                'user_id' => $user->id
+                'member_id' => $user->id
             ]);
                 factory(App\Models\Book::class, 5)->create([
-                    'user_id' => $user->id
+                    'member_id' => $user->id
                 
                 ]);
                 factory(App\Models\Project::class, 2)->create([
-                    'user_id' => $user->id
+                    'member_id' => $user->id
                 ]);
         }
     }

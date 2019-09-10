@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Book::class, function (Faker $faker) {
     return [
-        'user_id' => rand(1,10),
+        'member_id' => rand(1,10),
         'name' => $faker->name,
         'author' => $faker->name,
         'address' => $faker->address,

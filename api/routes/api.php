@@ -19,7 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 //user routes
-Route::resource('users', 'UserController');
+Route::resource('members', 'MemberController');
 
 
 //contact routes
