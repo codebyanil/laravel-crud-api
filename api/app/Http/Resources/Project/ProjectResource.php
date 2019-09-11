@@ -17,7 +17,7 @@ class ProjectResource extends BaseResource
     {
         return [
             'id' => $this->id,
-            'user_id'=>$this->user_id,
+            'member_id'=>$this->member_id,
             'name' => $this->name,
             'url' => $this->url,
             'description' => $this->description,
