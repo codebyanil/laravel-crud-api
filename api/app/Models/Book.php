@@ -9,7 +9,7 @@ class Book extends Model
     // the table associated with the model
     protected $table = 'books';
     // the attributes that are mass assignable
-    protected $fillable = ['member_id', 'name',  'author', 'phone', 'address','description'];
+    protected $fillable = ['member_id', 'name',  'author', 'phone', 'address', 'description'];
     // hidden fields
     protected $hidden = ['updated_at'];
 
