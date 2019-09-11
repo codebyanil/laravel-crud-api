@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Contact;
 
 use App\Http\Requests\BaseFormRequest;
+use Illuminate\Validation\Rule;
 
 
 class UpdateRequest extends BaseFormRequest
@@ -30,7 +31,7 @@ class UpdateRequest extends BaseFormRequest
     {
         return [
             'name'=>'required|string',
-            'email'=>'nullable|email',
+            'email'=>['nullable', 'email', Rule::unique('contacts')],
             'address'=>'required|string',
             'phone'=>'required|string',
         ];

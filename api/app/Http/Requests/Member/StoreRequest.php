@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Member;
 
 use App\Http\Requests\BaseFormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreRequest extends BaseFormRequest
 {
@@ -29,7 +30,7 @@ class StoreRequest extends BaseFormRequest
     {
         return [
             'name' => 'required|string',
-            'email'=>'required|email',
+            'email'=>'required|email'
         ];
     }
 }
