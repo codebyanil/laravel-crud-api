@@ -11,7 +11,7 @@ use App\Http\Resources\Common\DeleteResource;
 use App\Http\Resources\Project\ProjectResource;
 use App\Models\Project;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ProjectController extends Controller
 {
@@ -19,10 +19,11 @@ class ProjectController extends Controller
      *  --------------------------------------------------
      * Display a listing of the resource.
      *  --------------------------------------------------
-     * @return \Illuminate\Http\Response
-     * --------------------------------------------------   
+     * @param IndexRequest $request
+     * @return ProjectResource|AnonymousResourceCollection
+     * --------------------------------------------------
      */
-    public function index(IndexRequest $request, Project $project)
+    public function index(IndexRequest $request)
     {
         // allocate resources
         $perPage = $request->get('per_page');
@@ -30,6 +31,12 @@ class ProjectController extends Controller
 
         // init query builder
         $query = Project::query();
+        // search keyword
+        if ($request->has('keyword') && strlen($request->get('keyword')) >= 2) {
+            // search fields
+            $searchFields = ['name', 'url'];
+            $query->search($searchFields, $request->get('keyword'));
+        }
         // sort and execute
         $query = $query->orderBy('projects.id', $sortOrder);
         $projects = $query->paginate($perPage ?: $query->count());
@@ -38,21 +45,11 @@ class ProjectController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * --------------------------------------------------
      * Store a newly created resource in storage.
      * --------------------------------------------------
-     * @param  \Illuminate\Http\StoreRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreRequest $request
+     * @return ProjectResource
      * --------------------------------------------------
      */
     public function store(StoreRequest $request)
@@ -74,9 +71,9 @@ class ProjectController extends Controller
      * --------------------------------------------------
      * Display the specified resource.
      * --------------------------------------------------
-     * @param  \Illuminate\Http\ShowRequest  $request
-     * @param  int\Project $project
-     * @return \Illuminate\Http\Response
+     * @param ShowRequest $request
+     * @param Project $project
+     * @return ProjectResource
      * --------------------------------------------------
      */
     public function show(ShowRequest $request, Project $project)
@@ -85,23 +82,12 @@ class ProjectController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * --------------------------------------------------
      * Update the specified resource in storage.
      * --------------------------------------------------
-     * @param  \Illuminate\Http\UpdateRequest  $request
-     * @param  int\Project $project
-     * @return \Illuminate\Http\Response
+     * @param UpdateRequest $request
+     * @param Project $project
+     * @return ProjectResource
      * --------------------------------------------------
      */
     public function update(UpdateRequest $request, Project $project)
@@ -116,9 +102,10 @@ class ProjectController extends Controller
      * --------------------------------------------------
      * Remove the specified resource from storage.
      * --------------------------------------------------
-     * @param  \Illuminate\Http\UpdateRequest  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param DeleteRequest $request
+     * @param Project $project
+     * @return DeleteResource
+     * @throws AuthorizationException
      * --------------------------------------------------
      */
     public function destroy(DeleteRequest $request, Project $project)

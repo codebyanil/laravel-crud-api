@@ -33,4 +33,8 @@ Route::resource('books', 'BookController');
 //project routes
 Route::resource('projects', 'ProjectController');
 
+Route::prefix('count')->group(function () {
+    Route::get('', 'AggregateController@count');
+});
+
 

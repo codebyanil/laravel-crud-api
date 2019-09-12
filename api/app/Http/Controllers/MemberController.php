@@ -12,6 +12,7 @@ use App\Http\Resources\Member\MemberResource;
 use App\Models\Member;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class MemberController extends Controller
 {
@@ -19,8 +20,8 @@ class MemberController extends Controller
      * --------------------------------------------------
      * Display a listing of the resource.
      *--------------------------------------------------
-     * @return \Illuminate\Http\Response
-     * @param  \Illuminate\Http\IndexRequest  $request
+     * @return MemberResource|AnonymousResourceCollection
+     * @param  IndexRequest  $request
      * --------------------------------------------------
      */
     public function index(IndexRequest $request)
@@ -32,6 +33,7 @@ class MemberController extends Controller
 
         // init query builder
         $query = Member::query();
+
         // sort and execute
         $query = $query->orderBy('members.id', $sortOrder);
         $members = $query->paginate($perPage ?: $query->count());
@@ -40,21 +42,11 @@ class MemberController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * --------------------------------------------------
      * Store a newly created resource in storage.
      *--------------------------------------------------
-     * @param  \Illuminate\Http\StoreRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param  StoreRequest  $request
+     * @return MemberResource
      * --------------------------------------------------
      */
     public function store(StoreRequest $request)
@@ -73,8 +65,9 @@ class MemberController extends Controller
      * --------------------------------------------------
      * Display the specified resource.
      *--------------------------------------------------
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  ShowRequest $request
+     * @param  Member $member
+     * @return MemberResource
      * --------------------------------------------------
      */
     public function show(ShowRequest $request, Member $member)
@@ -82,26 +75,14 @@ class MemberController extends Controller
         return new MemberResource($member);
     }
 
-    /**
-     * --------------------------------------------------
-     * Show the form for editing the specified resource.
-     *--------------------------------------------------
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     * --------------------------------------------------
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * --------------------------------------------------
      * Update the specified resource in storage.
      * --------------------------------------------------
-     * @param  \Illuminate\Http\UpdateRequest  $request
-     * @param  int  Member $member
-     * @return \Illuminate\Http\Response
+     * @param  UpdateRequest  $request
+     * @param  Member $member
+     * @return MemberResource
      * --------------------------------------------------
      */
     public function update(UpdateRequest $request, Member $member)
@@ -121,7 +102,6 @@ class MemberController extends Controller
      * @param Member $member
      * @return DeleteResource
      * @throws AuthorizationException
-     * @return \Illuminate\Http\Response
      * --------------------------------------------------
      */
     public function destroy(DeleteRequest $request, Member $member)

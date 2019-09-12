@@ -19,7 +19,7 @@ class BookResource extends BaseResource
             'id' => $this->id,
             'member_id'=>$this->member_id,
             'name' => $this->name,
-            'author' => $this->email,
+            'author' => $this->author,
             'address' => $this->address,
             'phone'=>$this->phone,
             'description'=>$this->phone,

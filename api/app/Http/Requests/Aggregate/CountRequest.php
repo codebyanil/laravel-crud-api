@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Contact;
+
+namespace App\Http\Requests\Aggregate;
 
 use App\Http\Requests\BaseFormRequest;
-use Illuminate\Validation\Rule;
 
-
-class UpdateRequest extends BaseFormRequest
+class CountRequest extends BaseFormRequest
 {
     /**
      * --------------------------------------------------
@@ -30,10 +29,8 @@ class UpdateRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'name'=>'required|string',
-            'email'=>'nullable', 'email',
-            'address'=>'required|string',
-            'phone'=>'required|string',
+            //
         ];
     }
+
 }

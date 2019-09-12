@@ -11,7 +11,7 @@ use App\Http\Resources\Common\DeleteResource;
 use App\Http\Resources\Contact\ContactResource;
 use App\Models\Contact;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ContactController extends Controller
 {
@@ -19,10 +19,11 @@ class ContactController extends Controller
      * --------------------------------------------------
      * Display a listing of the resource.
      *--------------------------------------------------
-     * @return \Illuminate\Http\Response
+     * @param IndexRequest $request
+     * @return  ContactResource|AnonymousResourceCollection
      * --------------------------------------------------
      */
-    public function index(IndexRequest $request, Contact $contact)
+    public function index(IndexRequest $request)
     {
         // allocate resources
         $perPage = $request->get('per_page');
@@ -30,6 +31,12 @@ class ContactController extends Controller
 
         // init query builder
         $query = Contact::query();
+        // search keyword
+        if ($request->has('keyword') && strlen($request->get('keyword')) >= 2) {
+            // search fields
+            $searchFields = ['name', 'email', 'address', 'phone'];
+            $query->search($searchFields, $request->get('keyword'));
+        }
         // sort and execute
         $query = $query->orderBy('contacts.id', $sortOrder);
         $contacts = $query->paginate($perPage ?: $query->count());
@@ -37,24 +44,13 @@ class ContactController extends Controller
         return ContactResource::collection($contacts);
     }
 
-    /**
-     * --------------------------------------------------
-     * Show the form for creating a new resource.
-     *--------------------------------------------------
-     * @return \Illuminate\Http\Response
-     * --------------------------------------------------
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * --------------------------------------------------
      * Store a newly created resource in storage.
      *--------------------------------------------------
-     * @param \Illuminate\Http\StoreRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreRequest $request
+     * @return ContactResource
      * --------------------------------------------------
      */
     public function store(StoreRequest $request)
@@ -75,9 +71,9 @@ class ContactController extends Controller
      * --------------------------------------------------
      * Display the specified resource.
      *--------------------------------------------------
-     * @param  \Illuminate\Http\ShowRequest  $request
-     * @param  intContact $contact)
-     * @return \Illuminate\Http\Response
+     * @param ShowRequest $request
+     * @param Contact $contact
+     * @return ContactResource
      * --------------------------------------------------
      */
     public function show(ShowRequest $request, Contact $contact)
@@ -86,26 +82,15 @@ class ContactController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * --------------------------------------------------
      * Update the specified resource in storage.
      *--------------------------------------------------
-     * @param  \Illuminate\Http\UpdateRequest  $request
-     * @param  intContact $contact
-     * @return \Illuminate\Http\Response
+     * @param UpdateRequest $request
+     * @param Contact $contact
+     * @return ContactResource
      * --------------------------------------------------
      */
-    public function update(UpdateRequest $request,  Contact $contact)
+    public function update(UpdateRequest $request, Contact $contact)
     {
         $contact->name = $request->get('name') ?? $contact->name;
         $contact->email = $request->get('email') ?? $contact->email;
@@ -119,9 +104,10 @@ class ContactController extends Controller
      * --------------------------------------------------
      * Remove the specified resource from storage.
      *--------------------------------------------------
-     *  @param  \Illuminate\Http\DeleteRequest  $request
-     * @param  int Contact $contact
-     * @return \Illuminate\Http\Response
+     * @param DeleteRequest $request
+     * @param Contact $contact
+     * @return DeleteResource
+     * @throws AuthorizationException
      * --------------------------------------------------
      */
     public function destroy(DeleteRequest $request, Contact $contact)
@@ -129,6 +115,6 @@ class ContactController extends Controller
         if ($contact->delete()) {
             return new DeleteResource([]);
         }
-        throw new AuthorizationException("forbidden you cannot delete contact");
+        throw new AuthorizationException('Forbidden! You cannot delete this contact.');
     }
 }
