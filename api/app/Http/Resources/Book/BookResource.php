@@ -3,7 +3,6 @@
 namespace App\Http\Resources\Book;
 
 use App\Http\Resources\BaseResource;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class BookResource extends BaseResource
@@ -17,12 +16,12 @@ class BookResource extends BaseResource
     {
         return [
             'id' => $this->id,
-            'member_id'=>$this->member_id,
+            'member_id' => $this->member_id,
             'name' => $this->name,
             'author' => $this->author,
             'address' => $this->address,
-            'phone'=>$this->phone,
-            'description'=>$this->phone,
+            'phone' => $this->phone,
+            'description' => $this->description,
             'created_at' => $this->created_at
         ];
     }
