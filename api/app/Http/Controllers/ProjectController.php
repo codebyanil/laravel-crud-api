@@ -94,6 +94,7 @@ class ProjectController extends Controller
     {
         $project->name = $request->get('name') ?? $project->name;
         $project->url = $request->get('url') ?? $project->url;
+        $project->description = $request->get('description') ?? $project->description;
         $project->save();
         return new ProjectResource($project);
     }
