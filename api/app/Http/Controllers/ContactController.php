@@ -63,6 +63,9 @@ class ContactController extends Controller
         $contact->email = $request->get('email');
         $contact->address = $request->get('address');
         $contact->phone = $request->get('phone');
+        $contact->dob = $request->input('dob');
+        $contact->description = $request->input('description');
+        $contact->photo_url = $request->input('photo_url');
         $contact->save();
         return new ContactResource($contact);
     }
@@ -96,6 +99,9 @@ class ContactController extends Controller
         $contact->email = $request->get('email') ?? $contact->email;
         $contact->address = $request->get('address') ?? $contact->address;
         $contact->phone = $request->get('phone') ?? $contact->phone;
+        $contact->dob = $request->input('dob') ?? $contact->dob;
+        $contact->description = $request->input('description') ?? $contact->description;
+        $contact->photo_url = $request->input('photo_url') ?? $contact->photo_url;
         $contact->save();
         return new ContactResource($contact);
     }

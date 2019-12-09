@@ -17,11 +17,14 @@ class ContactResource extends BaseResource
     {
         return [
             'id' => $this->id,
-            'member_id'=>$this->member_id,
+            'member_id' => $this->member_id,
             'name' => $this->name,
             'email' => $this->email,
             'address' => $this->address,
-            'phone'=>$this->phone,
+            'phone' => $this->phone,
+            'dob' => $this->dob,
+            'photo_url' => $this->photo_url,
+            'description' => $this->description,
             'created_at' => $this->created_at
         ];
     }

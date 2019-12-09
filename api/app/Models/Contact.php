@@ -12,7 +12,7 @@ class Contact extends Model
     // the table associated with the model
     protected $table = 'contacts';
     // the attributes that are mass assignable
-    protected $fillable = ['member_id', 'name',  'email', 'phone', 'address'];
+    protected $fillable = ['member_id', 'name',  'email', 'phone', 'address','dob', 'photo_url','description',];
     // hidden fields
     protected $hidden = ['updated_at'];
 

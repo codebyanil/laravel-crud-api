@@ -30,7 +30,7 @@ class StoreRequest extends BaseFormRequest
     {
         return [
             'name' => 'required|string',
-            'email'=>'required|email'
+            'email'=>'required|email|unique:members'
         ];
     }
 }

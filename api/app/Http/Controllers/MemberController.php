@@ -20,9 +20,9 @@ class MemberController extends Controller
      * --------------------------------------------------
      * Display a listing of the resource.
      *--------------------------------------------------
-     * @return MemberResource|AnonymousResourceCollection
-     * @param  IndexRequest  $request
+     * @param IndexRequest $request
      * --------------------------------------------------
+     * @return MemberResource|AnonymousResourceCollection
      */
     public function index(IndexRequest $request)
     {
@@ -34,6 +34,12 @@ class MemberController extends Controller
         // init query builder
         $query = Member::query();
 
+        // search keyword
+        if ($request->has('keyword') && strlen($request->get('keyword')) >= 2) {
+            // search fields
+            $searchFields = ['name', 'email'];
+            $query->search($searchFields, $request->get('keyword'));
+        }
         // sort and execute
         $query = $query->orderBy('members.id', $sortOrder);
         $members = $query->paginate($perPage ?: $query->count());
@@ -45,7 +51,7 @@ class MemberController extends Controller
      * --------------------------------------------------
      * Store a newly created resource in storage.
      *--------------------------------------------------
-     * @param  StoreRequest  $request
+     * @param StoreRequest $request
      * @return MemberResource
      * --------------------------------------------------
      */
@@ -65,8 +71,8 @@ class MemberController extends Controller
      * --------------------------------------------------
      * Display the specified resource.
      *--------------------------------------------------
-     * @param  ShowRequest $request
-     * @param  Member $member
+     * @param ShowRequest $request
+     * @param Member $member
      * @return MemberResource
      * --------------------------------------------------
      */
@@ -80,8 +86,8 @@ class MemberController extends Controller
      * --------------------------------------------------
      * Update the specified resource in storage.
      * --------------------------------------------------
-     * @param  UpdateRequest  $request
-     * @param  Member $member
+     * @param UpdateRequest $request
+     * @param Member $member
      * @return MemberResource
      * --------------------------------------------------
      */

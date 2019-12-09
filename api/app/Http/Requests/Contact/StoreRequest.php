@@ -30,10 +30,12 @@ class StoreRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'name'=>'required|string',
-            'email'=>['required', 'email', Rule::unique('contacts')],
-            'address'=>'required|string',
-            'phone'=>'required|string'
+            'name' => 'required|string',
+            'email' => ['required', 'email', Rule::unique('contacts')],
+            'address' => 'required|string',
+            'phone' => 'required|string',
+            'dob' => ['nullable', 'string'],
+            'description' => ['nullable', 'string'],
         ];
     }
 }
