@@ -35,7 +35,7 @@ class StoryController extends Controller
         // search the keyword
         if ($request->has('keyword') && strlen($request->get('keyword')) >= 2) {
             // search fields
-            $searchFields = ['name', 'author', 'address', 'description'];
+            $searchFields = ['name', 'title', 'address', 'description'];
             $query->search($searchFields, $request->get('keyword'));
         }
         // sort and execute
