@@ -16,9 +16,8 @@ class AggregateResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'user' => $this->user ?? 0,
-            'book' => $this->book ?? 0,
-            'project' => $this->project ?? 0,
+            'story' => $this->story ?? 0,
+            'contact' => $this->contact ?? 0,
         ];
     }
 

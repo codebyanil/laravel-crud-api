@@ -11,7 +11,6 @@ use App\Http\Resources\Common\DeleteResource;
 use App\Http\Resources\Member\MemberResource;
 use App\Models\Member;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class MemberController extends Controller
@@ -24,7 +23,7 @@ class MemberController extends Controller
      * --------------------------------------------------
      * @return MemberResource|AnonymousResourceCollection
      */
-    public function index(IndexRequest $request)
+    public function index(IndexRequest $request): AnonymousResourceCollection
     {
 
         // allocate resources
@@ -55,7 +54,7 @@ class MemberController extends Controller
      * @return MemberResource
      * --------------------------------------------------
      */
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): MemberResource
     {
         // create user
         $user = new Member([
@@ -76,7 +75,7 @@ class MemberController extends Controller
      * @return MemberResource
      * --------------------------------------------------
      */
-    public function show(ShowRequest $request, Member $member)
+    public function show(ShowRequest $request, Member $member): MemberResource
     {
         return new MemberResource($member);
     }
@@ -91,7 +90,7 @@ class MemberController extends Controller
      * @return MemberResource
      * --------------------------------------------------
      */
-    public function update(UpdateRequest $request, Member $member)
+    public function update(UpdateRequest $request, Member $member): MemberResource
     {
 
         $member->name = $request->get('name') ?? $member->name;

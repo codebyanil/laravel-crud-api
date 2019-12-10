@@ -24,7 +24,7 @@ class StoryController extends Controller
      * @return StoryResource| AnonymousResourceCollection
      *  --------------------------------------------------
      */
-    public function index(IndexRequest $request)
+    public function index(IndexRequest $request): AnonymousResourceCollection
     {
         // allocate resources
         $perPage = $request->get('per_page');
@@ -54,7 +54,7 @@ class StoryController extends Controller
      * @return StoryResource
      * --------------------------------------------------
      */
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): StoryResource
     {
         $memberId = session()->get('member_id') ?? 7;
 
@@ -79,7 +79,7 @@ class StoryController extends Controller
      * @return StoryResource
      * --------------------------------------------------
      */
-    public function show(ShowRequest $request, Story $book)
+    public function show(ShowRequest $request, Story $book): StoryResource
     {
         return new StoryResource($book);
     }
@@ -94,7 +94,7 @@ class StoryController extends Controller
      * @return StoryResource
      * --------------------------------------------------
      */
-    public function update(UpdateRequest $request, Story $book)
+    public function update(UpdateRequest $request, Story $book): StoryResource
     {
         $book->name = $request->get('name') ?? $book->name;
         $book->title = $request->get('title') ?? $book->title;

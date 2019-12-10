@@ -23,7 +23,7 @@ class ContactController extends Controller
      * @return  ContactResource|AnonymousResourceCollection
      * --------------------------------------------------
      */
-    public function index(IndexRequest $request)
+    public function index(IndexRequest $request): AnonymousResourceCollection
     {
         // allocate resources
         $perPage = $request->get('per_page');
@@ -53,7 +53,7 @@ class ContactController extends Controller
      * @return ContactResource
      * --------------------------------------------------
      */
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): ContactResource
     {
         $memberId = session()->get('member_id') ?? 7;
 
@@ -79,7 +79,7 @@ class ContactController extends Controller
      * @return ContactResource
      * --------------------------------------------------
      */
-    public function show(ShowRequest $request, Contact $contact)
+    public function show(ShowRequest $request, Contact $contact): ContactResource
     {
         return new ContactResource($contact);
     }
@@ -93,7 +93,7 @@ class ContactController extends Controller
      * @return ContactResource
      * --------------------------------------------------
      */
-    public function update(UpdateRequest $request, Contact $contact)
+    public function update(UpdateRequest $request, Contact $contact): ContactResource
     {
         $contact->name = $request->get('name') ?? $contact->name;
         $contact->email = $request->get('email') ?? $contact->email;
