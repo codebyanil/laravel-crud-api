@@ -15,13 +15,6 @@ class Story extends Model
     // hidden fields
     protected $hidden = ['updated_at'];
 
-
-    /*
-     * --------------------------------------------------
-     * Relation functions
-     * --------------------------------------------------
-     *  */
-
     public function member()
     {
         return $this->belongsTo(Member::class);

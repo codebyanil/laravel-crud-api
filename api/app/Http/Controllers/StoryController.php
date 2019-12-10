@@ -10,6 +10,7 @@ use App\Http\Requests\Story\UpdateRequest;
 use App\Http\Resources\Common\DeleteResource;
 use App\Http\Resources\Story\StoryResource;
 use App\Models\Story;
+use Carbon\Carbon;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -32,6 +33,16 @@ class StoryController extends Controller
 
         // init query builder
         $query = Story::query();
+
+        // date range
+        if ($request->has('start_date') || $request->has('end_date')) {
+
+            $start = Carbon::parse($request->input('start_date'))->startOfDay();
+            $end = Carbon::parse($request->input('end_date'))->endOfDay();
+
+            //date filter
+            $query->whereBetween('created_at', [$start, $end]);
+        }
         // search the keyword
         if ($request->has('keyword') && strlen($request->get('keyword')) >= 2) {
             // search fields

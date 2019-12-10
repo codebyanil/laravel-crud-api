@@ -34,8 +34,8 @@ Route::resource('stories', 'StoryController');
 //project routes
 Route::resource('projects', 'ProjectController');
 
-Route::prefix('count')->group(function () {
-    Route::get('', 'AggregateController@count');
-});
+
+Route::get('count', 'AggregateController@count');
+
 
 

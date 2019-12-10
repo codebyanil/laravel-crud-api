@@ -30,9 +30,11 @@ class IndexRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'per_page' => ['nullable',new IntOrBool],
+            'per_page' => ['nullable', new IntOrBool],
             'sort_by' => 'nullable|string',
             'sort_order' => ['nullable', new AscOrDesc],
+            'start_date' => 'nullable|date|date_format:Y-m-d',
+            'end_date' => 'nullable|date|after_or_equal:start_date|date_format:Y-m-d'
         ];
     }
 }
