@@ -1,26 +1,25 @@
 <?php
 
-namespace App\Http\Resources\Book;
+namespace App\Http\Resources\Story;
 
 use App\Http\Resources\BaseResource;
 use Illuminate\Http\Request;
 
-class BookResource extends BaseResource
+class StoryResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
      * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id' => $this->id,
             'member_id' => $this->member_id,
             'name' => $this->name,
-            'author' => $this->author,
+            'title' => $this->title,
             'address' => $this->address,
-            'phone' => $this->phone,
             'description' => $this->description,
             'created_at' => $this->created_at
         ];

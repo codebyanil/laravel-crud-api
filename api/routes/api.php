@@ -27,7 +27,7 @@ Route::resource('contacts', 'ContactController');
 
 
 //book routes
-Route::resource('books', 'BookController');
+Route::resource('stories', 'StoryController');
 
 
 //project routes

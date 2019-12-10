@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Book\DeleteRequest;
-use App\Http\Requests\Book\IndexRequest;
-use App\Http\Requests\Book\ShowRequest;
-use App\Http\Requests\Book\StoreRequest;
-use App\Http\Requests\Book\UpdateRequest;
-use App\Http\Resources\Book\BookResource;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use App\Http\Requests\Story\DeleteRequest;
+use App\Http\Requests\Story\IndexRequest;
+use App\Http\Requests\Story\ShowRequest;
+use App\Http\Requests\Story\StoreRequest;
+use App\Http\Requests\Story\UpdateRequest;
 use App\Http\Resources\Common\DeleteResource;
-use App\Models\Book;
+use App\Http\Resources\Story\StoryResource;
+use App\Models\Story;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class BookController extends Controller
+class StoryController extends Controller
 {
     /**
      *  --------------------------------------------------
@@ -21,7 +21,7 @@ class BookController extends Controller
      *
      *  --------------------------------------------------
      * @param IndexRequest $request
-     * @return BookResource| AnonymousResourceCollection
+     * @return StoryResource| AnonymousResourceCollection
      *  --------------------------------------------------
      */
     public function index(IndexRequest $request)
@@ -31,18 +31,18 @@ class BookController extends Controller
         $sortOrder = $request->get('sort_order') ?? 'DESC';
 
         // init query builder
-        $query = Book::query();
+        $query = Story::query();
         // search the keyword
         if ($request->has('keyword') && strlen($request->get('keyword')) >= 2) {
             // search fields
-            $searchFields = ['name', 'author', 'address', 'phone'];
+            $searchFields = ['name', 'author', 'address', 'description'];
             $query->search($searchFields, $request->get('keyword'));
         }
         // sort and execute
-        $query = $query->orderBy('books.id', $sortOrder);
+        $query = $query->orderBy('id', $sortOrder);
         $books = $query->paginate($perPage ?: $query->count());
 
-        return BookResource::collection($books);
+        return StoryResource::collection($books);
     }
 
 
@@ -51,24 +51,23 @@ class BookController extends Controller
      * Store a newly created resource in storage.
      *--------------------------------------------------
      * @param StoreRequest $request
-     * @return BookResource
+     * @return StoryResource
      * --------------------------------------------------
      */
     public function store(StoreRequest $request)
     {
         $memberId = session()->get('member_id') ?? 7;
 
-        $book = new Book();
+        $book = new Story();
         $book->member_id = $memberId;
         $book->name = $request->get('name');
-        $book->author = $request->get('author');
+        $book->title = $request->get('title');
         $book->address = $request->get('address');
-        $book->phone = $request->get('phone');
         if ($request->has('description')) {
             $book->description = $request->get('description');
         }
         $book->save();
-        return new BookResource($book);
+        return new StoryResource($book);
     }
 
     /**
@@ -76,13 +75,13 @@ class BookController extends Controller
      * Display the specified resource.
      *--------------------------------------------------
      * @param ShowRequest $request
-     * @param Book $book
-     * @return BookResource
+     * @param Story $book
+     * @return StoryResource
      * --------------------------------------------------
      */
-    public function show(ShowRequest $request, Book $book)
+    public function show(ShowRequest $request, Story $book)
     {
-        return new BookResource($book);
+        return new StoryResource($book);
     }
 
 
@@ -91,32 +90,32 @@ class BookController extends Controller
      * Update the specified resource in storage.
      *--------------------------------------------------
      * @param UpdateRequest $request
-     * @param Book $book
-     * @return BookResource
+     * @param Story $book
+     * @return StoryResource
      * --------------------------------------------------
      */
-    public function update(UpdateRequest $request, Book $book)
+    public function update(UpdateRequest $request, Story $book)
     {
         $book->name = $request->get('name') ?? $book->name;
-        $book->author = $request->get('author') ?? $book->author;
+        $book->title = $request->get('title') ?? $book->title;
         $book->phone = $request->get('phone') ?? $book->phone;
         $book->address = $request->get('address') ?? $book->address;
         $book->description = $request->get('name') ?? $book->description;
         $book->save();
-        return new BookResource($book);
+        return new StoryResource($book);
     }
 
     /**
      * --------------------------------------------------
      * Remove the specified resource from storage.
      *--------------------------------------------------
-     * @param Book $book
+     * @param Story $book
      * @param DeleteRequest $request
      * @return DeleteResource
      * @throws AuthorizationException
      * --------------------------------------------------
      */
-    public function destroy(DeleteRequest $request, Book $book)
+    public function destroy(DeleteRequest $request, Story $book)
     {
         if ($book->delete()) {
             return new DeleteResource([]);

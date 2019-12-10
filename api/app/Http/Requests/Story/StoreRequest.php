@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Book;
+namespace App\Http\Requests\Story;
 
 use App\Http\Requests\BaseFormRequest;
-use App\Rules\AscOrDesc;
-use App\Rules\IntOrBool;
 
-class IndexRequest extends BaseFormRequest
+
+class StoreRequest extends BaseFormRequest
 {
     /**
      * --------------------------------------------------
@@ -30,9 +29,10 @@ class IndexRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'per_page' => ['nullable',new IntOrBool],
-            'sort_by' => 'nullable|string',
-            'sort_order' => ['nullable', new AscOrDesc],
+            'name'=>'required|string',
+            'title'=>'required|string',
+            'address'=>'required|string',
+            'description'=>'nullable|string'
         ];
     }
 }

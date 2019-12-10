@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Book;
+namespace App\Http\Requests\Story;
 
 use App\Http\Requests\BaseFormRequest;
 
 
-class UpdateRequest extends BaseFormRequest
+class ShowRequest extends BaseFormRequest
 {
     /**
      * --------------------------------------------------
@@ -29,11 +29,7 @@ class UpdateRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'name'=>'required|string',
-            'author'=>'required|string',
-            'address'=>'required|string',
-            'phone'=>'required|string',
-            'description'=>'nullable|string'
+
         ];
     }
 }
