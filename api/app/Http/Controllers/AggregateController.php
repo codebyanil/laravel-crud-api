@@ -10,10 +10,10 @@ class AggregateController extends Controller
 {
     public function count(CountRequest $request)
     {
-        $memberId = session()->get('member_id') ?? 7;
+        //$memberId = session()->get('member_id') ?? 7;
         return response(true, [
-            'story' => Story::where('member_id', $memberId)->count(),
-            'contact' => Contact::where('member_id', $memberId)->count(),
+            'story' => Story::count(),
+            'contact' => Contact::count(),
         ]);
     }
 }
