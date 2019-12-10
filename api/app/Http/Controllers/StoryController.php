@@ -40,9 +40,9 @@ class StoryController extends Controller
         }
         // sort and execute
         $query = $query->orderBy('id', $sortOrder);
-        $books = $query->paginate($perPage ?: $query->count());
+        $stories = $query->paginate($perPage ?: $query->count());
 
-        return StoryResource::collection($books);
+        return StoryResource::collection($stories);
     }
 
 
@@ -58,16 +58,16 @@ class StoryController extends Controller
     {
         $memberId = session()->get('member_id') ?? 7;
 
-        $book = new Story();
-        $book->member_id = $memberId;
-        $book->name = $request->get('name');
-        $book->title = $request->get('title');
-        $book->address = $request->get('address');
+        $story = new Story();
+        $story->member_id = $memberId;
+        $story->name = $request->get('name');
+        $story->title = $request->get('title');
+        $story->address = $request->get('address');
         if ($request->has('description')) {
-            $book->description = $request->get('description');
+            $story->description = $request->get('description');
         }
-        $book->save();
-        return new StoryResource($book);
+        $story->save();
+        return new StoryResource($story);
     }
 
     /**
@@ -75,13 +75,13 @@ class StoryController extends Controller
      * Display the specified resource.
      *--------------------------------------------------
      * @param ShowRequest $request
-     * @param Story $book
+     * @param Story $story
      * @return StoryResource
      * --------------------------------------------------
      */
-    public function show(ShowRequest $request, Story $book): StoryResource
+    public function show(ShowRequest $request, Story $story): StoryResource
     {
-        return new StoryResource($book);
+        return new StoryResource($story);
     }
 
 
@@ -90,34 +90,33 @@ class StoryController extends Controller
      * Update the specified resource in storage.
      *--------------------------------------------------
      * @param UpdateRequest $request
-     * @param Story $book
+     * @param Story $story
      * @return StoryResource
      * --------------------------------------------------
      */
-    public function update(UpdateRequest $request, Story $book): StoryResource
+    public function update(UpdateRequest $request, Story $story): StoryResource
     {
-        $book->name = $request->get('name') ?? $book->name;
-        $book->title = $request->get('title') ?? $book->title;
-        $book->phone = $request->get('phone') ?? $book->phone;
-        $book->address = $request->get('address') ?? $book->address;
-        $book->description = $request->get('name') ?? $book->description;
-        $book->save();
-        return new StoryResource($book);
+        $story->name = $request->get('name') ?? $story->name;
+        $story->title = $request->get('title') ?? $story->title;
+        $story->address = $request->get('address') ?? $story->address;
+        $story->description = $request->get('name') ?? $story->description;
+        $story->save();
+        return new StoryResource($story);
     }
 
     /**
      * --------------------------------------------------
      * Remove the specified resource from storage.
      *--------------------------------------------------
-     * @param Story $book
      * @param DeleteRequest $request
+     * @param Story $story
      * @return DeleteResource
      * @throws AuthorizationException
      * --------------------------------------------------
      */
-    public function destroy(DeleteRequest $request, Story $book)
+    public function destroy(DeleteRequest $request, Story $story)
     {
-        if ($book->delete()) {
+        if ($story->delete()) {
             return new DeleteResource([]);
         }
         throw new AuthorizationException('Forbidden! You cannot delete this book.');
